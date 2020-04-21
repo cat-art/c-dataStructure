@@ -1,0 +1,38 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+void shortSort(int a[],int N)
+{
+    for(int i=1;i<N;i++)
+    {
+        int temp=a[i];
+        int j=i-1;
+        for(; j>=0&&temp<a[j];--j)
+        {
+            a[j+1]=a[j];     //每一次循环有将前面的给后面的值
+        }
+        a[j+1]=temp;       //在for循环执行结束后，--j 于是我要给j赋值就给j+1
+    }
+}/**  直接插入排序
+外循环执行N-1次，这很明显。
+但内循环执行的次数取决于输入：
+在最好的情况下，数组已经排序并且（a [j]> X）总是为假所以不需要移位数据，并且内部循环运行在O（1），
+在最坏的情况下，数组被反向排序并且（a [j]> X）始终为真插入始终发生在数组的前端，并且内部循环以O（N）运行。
+因此，最佳情况时间是O(N × 1) = O(N) ，最坏情况时间是O(N × N) = O(N2).
+**/
+int main()
+{
+    int a[1000],n;
+    cin>>n;
+    for(int i=0; i<n; i++)
+    {
+        cin>>a[i];
+    }
+    shortSort(a,n);
+    for(int i=0; i<n; i++)
+    {
+        cout<<a[i]<<" ";
+    }
+    return 0;
+}
