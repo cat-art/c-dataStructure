@@ -1,0 +1,76 @@
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+//线性表的存储结构 and 逻辑结构要弄清楚，但是我们Student在上课的时候，老师只是讲了算法部分是如何实现的，没有讲到实际操作的代码
+
+typedef struct
+{
+    int *elem;   //结构体指针
+    int length;
+    int listsize;
+} Sqlist;
+//这是一个结构体
+int Create(Sqlist *l,int n)
+{
+    l->elem=(int *)malloc(100*sizeof(int));   //ues the malloc function to new a location.
+    if(!l->elem)
+        return 0;
+    cout<<"请输入各个元素"<<endl;
+    for(int i=0; i<n; i++)
+    {
+        cin>>l->elem[i];
+    }
+    l->length=n;
+    l->listsize=100;
+    return 1;
+}
+int  listInsert(Sqlist *l, int i, int e)   //这是插入操作最关键的一部分，不理解的代码的小伙伴，可以画出一个线性表去理解内存与地址的关系
+{
+    int *q, *p, *newbase;
+    if(i<1||i>l->length+1)
+    {
+        return 0;
+    }
+    if(l->length>=l->listsize)
+    {
+        newbase=(int *)realloc(l->elem,(l->listsize+10)*sizeof(int));
+        if(!newbase)
+            exit(-1);
+        l->elem=newbase;
+        l->listsize+=10;
+    }
+    q=&(l->elem[i-1]);
+    for(p=&(l->elem[l->length-1]); p>=q; --p)
+    {
+        *(p+1)=*p;
+    }
+    *q=e;
+    ++l->length;
+    return 1;
+}
+int main()
+{
+    Sqlist *l1;
+    int i,e;
+    int n,a;
+    cout<<"请输入元素的个数:"<<endl;
+    cin>>n;
+    if(Create(l1,n)==1)
+    {
+        cout<<"请输入要插入的位置and元素"<<endl;
+        cin>>i>>e;
+        a=listInsert(l1,i,e);
+        if(a==1)
+        {
+            cout<<"恭喜你！！插入成功"<<endl;
+        }
+        else
+        {
+            cout<<"不好意思，插入失败！"<<endl;
+        }
+        cout<<"序列为：";
+        for(int i=0; i<l1->length; i++)
+            cout<<l1->elem[i]<<" ";
+    }
+    return 0;
+}
