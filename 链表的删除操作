@@ -1,0 +1,72 @@
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+typedef int Status;
+
+typedef struct Lnode
+{
+    int data;
+    struct Lnode *next;
+} *linklist;
+
+void Create(linklist *l, int n)
+{
+    linklist p;
+    (*l)=(linklist )malloc(sizeof(Lnode));
+    (*l)->next=0;
+    cout<<"please input element are:"<<endl;
+    for(int i=n; i>0; i--)
+    {
+        p=(linklist)malloc(sizeof(Lnode));
+        cin>>p->data;
+        p->next=(*l)->next;
+        (*l)->next=p;
+    }
+}/**创造一个链表*/
+
+Status linkDelete(linklist l,int i,int &e)
+{
+    linklist p;
+    p=l;
+    int j=0;
+    while(!(p->next)||j<i-1)
+    {
+        p=p->next;
+        ++j;
+    }
+    if(!p||j>i-1)
+    {
+        return 0;
+    }
+    e=p->next->data;
+    p->next=p->next->next;
+    return 1;
+}/**链表的删除操作*/
+
+int main()
+{
+    linklist l1,p;
+    int n,a;
+    cout<<"please input the data n"<<endl;
+    cin>>n;
+    Create(&l1,n);
+    int i,e;
+    cout<<"please input the i"<<endl;.
+    cin>>i;
+    a=linkDelete(l1,i,e);
+    if(a==1)
+    {
+        cout<<"delete is succeed!"<<endl;
+        p=l1->next;
+        cout<<"the element are:"<<endl;
+        while(p)
+        {
+            cout<<p->data<<" ";
+            p=p->next;
+        }
+    }
+    else
+        cout<<"delete is false!"<<endl;
+        system("pause");
+    return 0;
+}
