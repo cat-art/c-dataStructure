@@ -1,0 +1,65 @@
+#include <iostream>
+#include <stdlib.h>
+using namespace std;
+//为了简便，所以才用的namespace std 的命名空间
+typedef struct {
+    int *elem;
+    int length;
+    int listsize;
+}Sqlist;
+
+int Create(Sqlist *l, int n)   //创造一个函数，目的是给线性表开辟空间和输入元素。
+{
+    l->elem=(int *)malloc(100*sizeof(int ));
+    if(!l->elem)
+        return 0;
+    cout<<"please input number:"<<endl;
+    for(int i=0; i<n; i++)
+    {
+        cin>>l->elem[i];
+    }
+    l->length=n;
+    l->listsize=100;
+    return 1;
+}
+
+int listDelete(Sqlist *l,int i,int &e)  //算法的删除核心思想
+{
+    int *q,*p;
+    if(i<1||i>l->length)
+        return 0;
+    q=&(l->elem[0])+l->length-1;
+    p=&(l->elem[i-1]);
+     e=*p;
+    for(++p; p<=q; ++p)
+    {
+        *(p-1)=*p;
+    }
+    --l->length;
+    return 1;
+}
+int main()
+{
+    Sqlist *l1;
+    int i,e=0;
+    int n,a;
+    cout<<"please input data:"<<endl;
+    cin>>n;
+    if(Create(l1,n)==1)
+    {
+        cout<<"please input delete location:"<<endl;
+        cin>>i;
+        a=listDelete(l1,i,e);
+        if(a==1)
+            cout<<"delete is succeed!!"<<endl;
+        else
+            cout<<"delete is false!!"<<endl;
+        cout<<"delete the data of the element: "<<e<<endl;
+        cout<<"The list element are:"<<endl;
+        for(int i=0; i<l1->length; i++)
+        {
+            cout<<l1->elem[i]<<" ";
+        }
+    }
+    return 0;
+}
