@@ -1,0 +1,49 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+/*实现分治思想的模板就是快速排序，了解快排的原理，时间复杂度类似sort(), 
+实现快排有几个需要注意的地方  while（条件）mid=（high+low）/2等等*/
+int n;
+int a[5000005];
+int parition(int p,int r)
+{
+    int low,high,t;
+    low=p;
+    high=r;
+    t=a[low];
+    while(low<high)
+    {
+        while(low<high&&a[high]>=t)
+            high--;
+        a[low]=a[high];
+        while(low<high&&a[low]<=t)
+            low++;
+        a[high]=a[low];
+    }
+    a[low]=t;
+    return low; //返回地址
+}
+
+int select(int p,int r,int k)   //在区间中寻找第k个数
+{
+     int i,j;
+     if(p==r) return a[p];
+    i=parition(p,r);
+    j=i-p+1;
+    if(k==j)
+        return a[i];
+    else if(k<j)
+        return select(p,i-1,k);
+    else
+        return select(i+1,r,k-j);
+}
+int main()
+{
+    int i,k,t;
+   scanf("%d%d",&n,&k);
+    for(i=1; i<=n; i++)
+        scanf("%d",&a[i]);
+    t=select(1,n,k+1);
+    std::cout<<t<<std::endl;
+    return 0;
+}
